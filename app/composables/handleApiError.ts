@@ -1,0 +1,16 @@
+import type { FetchError } from 'ofetch'
+
+export default function (error: unknown, title: string) {
+  console.error('Unexpected error:', error)
+  const statusMessage =
+    (error as FetchError)?.data?.statusMessage ||
+    (error as Error)?.message ||
+    `${error}`
+
+  createErrorToast({
+    title,
+    description: statusMessage,
+  })
+
+  return { data: null }
+}
