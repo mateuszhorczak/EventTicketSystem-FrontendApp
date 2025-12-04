@@ -10,7 +10,7 @@ export const useAuth = defineStore('auth', () => {
 
   const login = async (email: string, password: string) => {
     isLoading.value = true
-    const { data } = await $fetch(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/login`, {
+    const { data } = await $fetch<{ token: string, user: User }>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/login`, {
       method: 'POST',
       body: {
         email,
@@ -25,17 +25,16 @@ export const useAuth = defineStore('auth', () => {
         })
         return { data }
       })
-      .catch((error) => handleApiError(error, 'Login failed'))
+      .catch(error => handleApiError(error, 'Login failed'))
       .finally(() => {
         isLoading.value = false
       })
-
     return data !== null
   }
 
   const register = async (user: NewUser) => {
     isLoading.value = true
-    const { data } = await $fetch(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register`, {
+    const { data } = await $fetch<SuccessResponse>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register`, {
       method: 'POST',
       body: user,
     })
@@ -46,7 +45,7 @@ export const useAuth = defineStore('auth', () => {
         })
         return { data: data.success }
       })
-      .catch((error) => handleApiError(error, 'Registration failed'))
+      .catch(error => handleApiError(error, 'Registration failed'))
       .finally(() => {
         isLoading.value = false
       })

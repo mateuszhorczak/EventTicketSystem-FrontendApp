@@ -8,7 +8,7 @@
     :toggle="{
       color: 'primary',
       variant: 'subtle',
-      class: 'rounded-full'
+      class: 'rounded-full',
     }"
   >
     <template #title>
@@ -22,7 +22,10 @@
     </template>
 
     <template #body>
-      <AtomsMainNavigation orientation="vertical" class="-mx-2.5" />
+      <AtomsMainNavigation
+        orientation="vertical"
+        class="-mx-2.5"
+      />
     </template>
   </UHeader>
 </template>

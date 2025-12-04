@@ -11,12 +11,12 @@ defineProps<{
     <UError
       :error="error"
       :clear="{
-      label: 'Back to home',
-      color: 'neutral',
-      size: 'xl',
-      icon: 'i-mdi-arrow-left',
-      class: 'rounded-full'
-    }"
+        label: 'Back to home',
+        color: 'neutral',
+        size: 'xl',
+        icon: 'i-mdi-arrow-left',
+        class: 'rounded-full',
+      }"
     />
   </UApp>
 </template>

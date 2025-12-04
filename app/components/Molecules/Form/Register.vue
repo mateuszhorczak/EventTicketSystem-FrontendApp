@@ -19,7 +19,7 @@ const schema = z.object({
     .trim()
     .min(1, { error: 'required' }),
 })
-  .refine((data) => data.password === data.password2, {
+  .refine(data => data.password === data.password2, {
     error: 'Passwords not match',
     path: ['password2'],
   })

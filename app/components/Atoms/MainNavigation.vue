@@ -8,12 +8,12 @@ const authToken = useAuthToken()
 const items = computed<NavigationMenuItem[]>(() => {
   const homePage = {
     icon: 'i-mdi-home',
-    to: '/'
+    to: '/',
   }
 
   const setDatabasePage = {
     icon: 'i-mdi-database-cog',
-    to: '/set-database'
+    to: '/set-database',
   }
 
   const isLoggedMenu = [
@@ -22,7 +22,7 @@ const items = computed<NavigationMenuItem[]>(() => {
     {
       label: 'Logout',
       icon: 'i-mdi-exit-to-app',
-      to: '/logout'
+      to: '/logout',
     },
   ]
 
@@ -32,12 +32,12 @@ const items = computed<NavigationMenuItem[]>(() => {
     {
       label: 'Login',
       icon: 'i-mdi-user',
-      to: '/login'
+      to: '/login',
     },
     {
       label: 'Register',
       icon: 'i-mdi-user',
-      to: '/register'
+      to: '/register',
     },
 
   ]

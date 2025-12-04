@@ -19,9 +19,16 @@ const inputDateRef = useTemplateRef('inputDateRef')
 </script>
 
 <template>
-  <UFormField :label="props.label" :help="props.help" :name="props.name">
+  <UFormField
+    :label="props.label"
+    :help="props.help"
+    :name="props.name"
+  >
     <UFieldGroup>
-      <UInputDate ref="inputDateRef" v-model="modelDate">
+      <UInputDate
+        ref="inputDateRef"
+        v-model="modelDate"
+      >
         <template #leading>
           <UPopover :reference="inputDateRef?.inputsRef[3]?.$el">
             <UButton
@@ -32,13 +39,20 @@ const inputDateRef = useTemplateRef('inputDateRef')
               class="px-0"
             />
             <template #content>
-              <UCalendar v-model="modelDate" class="p-2" />
+              <UCalendar
+                v-model="modelDate"
+                class="p-2"
+              />
             </template>
           </UPopover>
         </template>
       </UInputDate>
 
-      <UInputTime v-model="modelTime" :hour-cycle="24" :default-value="defaultTimeValue" />
+      <UInputTime
+        v-model="modelTime"
+        :hour-cycle="24"
+        :default-value="defaultTimeValue"
+      />
     </UFieldGroup>
   </UFormField>
 </template>

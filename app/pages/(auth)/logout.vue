@@ -1,8 +1,7 @@
 <script setup lang="ts">
-
 useAuth().logout()
 </script>
 
 <template>
-  <AtomsParagraph/>
+  <AtomsParagraph />
 </template>

@@ -16,9 +16,16 @@ const model = defineModel<string>('val', { default: '' })
 </script>
 
 <template>
-  <UFormField :label="props.label" :help="props.help" :name="props.name">
+  <UFormField
+    :label="props.label"
+    :help="props.help"
+    :name="props.name"
+  >
     <UInput
-      v-model="model" :icon="props.icon" :placeholder="props.placeholder" :variant="props.variant"
+      v-model="model"
+      :icon="props.icon"
+      :placeholder="props.placeholder"
+      :variant="props.variant"
       class="w-full"
     />
   </UFormField>

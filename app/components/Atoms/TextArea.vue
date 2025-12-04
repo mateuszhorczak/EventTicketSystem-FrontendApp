@@ -16,10 +16,18 @@ const model = defineModel<string>('val', { default: '' })
 </script>
 
 <template>
-  <UFormField :label="props.label" :help="props.help">
+  <UFormField
+    :label="props.label"
+    :help="props.help"
+  >
     <UTextarea
-      v-model="model" :name="props.name" :icon="props.icon" :placeholder="props.placeholder"
-      :variant="props.variant" autoresize class="w-full"
+      v-model="model"
+      :name="props.name"
+      :icon="props.icon"
+      :placeholder="props.placeholder"
+      :variant="props.variant"
+      autoresize
+      class="w-full"
     />
   </UFormField>
 </template>

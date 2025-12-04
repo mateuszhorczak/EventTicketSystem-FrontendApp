@@ -10,7 +10,7 @@ export default function (
 
     return {
       name: e.path[0] as string,
-      message: rawMessage
+      message: rawMessage,
     }
   })
 }

@@ -11,5 +11,10 @@ const props = defineProps<Props>()
 </script>
 
 <template>
-  <UButton :label="props.label" :variant="props.variant" :icon="props.icon" class="cursor-pointer" />
+  <UButton
+    :label="props.label"
+    :variant="props.variant"
+    :icon="props.icon"
+    class="cursor-pointer"
+  />
 </template>

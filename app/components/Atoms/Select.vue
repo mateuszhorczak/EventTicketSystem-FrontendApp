@@ -16,7 +16,11 @@ const model = defineModel<number>('val')
 </script>
 
 <template>
-  <UFormField :label="props.label" :help="props.help" :name="props.name">
+  <UFormField
+    :label="props.label"
+    :help="props.help"
+    :name="props.name"
+  >
     <USelect
       v-model="model"
       value-key="id"

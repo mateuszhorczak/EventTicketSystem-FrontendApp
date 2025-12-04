@@ -16,7 +16,11 @@ const model = defineModel<number[]>()
 </script>
 
 <template>
-  <UFormField :label="props.label" :help="props.help" :name="props.name">
+  <UFormField
+    :label="props.label"
+    :help="props.help"
+    :name="props.name"
+  >
     <USelectMenu
       v-model="model"
       value-key="id"

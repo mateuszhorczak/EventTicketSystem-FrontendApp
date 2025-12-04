@@ -1,26 +1,31 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/image',
+    '@nuxt/ui',
+    '@pinia/nuxt',
+  ],
   devtools: { enabled: true },
-  telemetry: { enabled: false },
+
+  css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
     public: {
       baseUrl: '',
     },
   },
-
-  css: ['~/assets/css/main.css'],
   experimental: {
     cookieStore: true,
     typedPages: true,
   },
+  compatibilityDate: '2025-07-15',
+  telemetry: { enabled: false },
 
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/hints',
-    '@nuxt/image',
-    '@nuxt/ui',
-    '@pinia/nuxt',
-  ]
+  eslint: {
+    config: {
+      stylistic: true,
+    },
+  },
 })

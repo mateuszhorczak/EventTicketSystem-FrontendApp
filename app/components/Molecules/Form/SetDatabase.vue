@@ -3,17 +3,18 @@ import type { FormError, FormSubmitEvent } from '@nuxt/ui'
 import * as z from 'zod'
 
 const databaseStore = useDatabaseStore()
+const authToken = useAuthToken()
 
 const validDatabases: DatabaseType[] = [
   'relational',
   'obj-rel',
   'objective',
-  'nosql'
+  'nosql',
 ]
 
 const schema = z.object({
   database: z
-    .string({ error: 'required' })
+    .string({ error: 'required' }),
 })
 
 type Schema = z.output<typeof schema>
@@ -31,9 +32,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   databaseStore.setDatabase(event.data.database)
   createSuccessToast({
     title: 'Database change successful',
-    description: `Current database is ${event.data.database}`
+    description: `Current database is ${event.data.database}`,
   })
-
+  if (authToken.isLoggedIn) await useRouter().push('/logout')
 }
 </script>
 
@@ -44,7 +45,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     class="space-y-4 mt-2"
     @submit="onSubmit"
   >
-    <UFormField label="Select database" name="database">
+    <UFormField
+      label="Select database"
+      name="database"
+    >
       <USelect
         v-model="state.database"
         value-key="id"
