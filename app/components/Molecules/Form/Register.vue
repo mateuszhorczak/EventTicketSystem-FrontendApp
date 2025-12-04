@@ -51,7 +51,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   <UForm
     :state="state"
     :validate="validate"
-    class="space-y-4"
+    class="space-y-4 mt-2"
     @submit="onSubmit"
   >
     <AtomsInput
@@ -74,7 +74,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     <AtomsPasswordInput
       v-model:val="state.password2"
-      label="Repeat password')"
+      label="Repeat password"
       name="password2"
       icon="i-mdi-lock-check"
       placeholder="Enter password"

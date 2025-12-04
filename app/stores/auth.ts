@@ -1,5 +1,7 @@
 export const useAuth = defineStore('auth', () => {
+  const config = useRuntimeConfig()
   const authToken = useAuthToken()
+  const databaseStore = useDatabaseStore()
   const isLoading = ref(false)
   const user = useCookie<User | null>('auth:user', {
     default: () => null,
@@ -8,7 +10,7 @@ export const useAuth = defineStore('auth', () => {
 
   const login = async (email: string, password: string) => {
     isLoading.value = true
-    const { data } = await $fetch('/api/v1/auth/login', {
+    const { data } = await $fetch(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/login`, {
       method: 'POST',
       body: {
         email,
@@ -33,7 +35,7 @@ export const useAuth = defineStore('auth', () => {
 
   const register = async (user: NewUser) => {
     isLoading.value = true
-    const { data } = await $fetch('/api/v1/auth/register', {
+    const { data } = await $fetch(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register`, {
       method: 'POST',
       body: user,
     })

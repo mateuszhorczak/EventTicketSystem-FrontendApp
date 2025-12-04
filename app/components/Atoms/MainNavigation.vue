@@ -10,8 +10,15 @@ const items = computed<NavigationMenuItem[]>(() => {
     icon: 'i-mdi-home',
     to: '/'
   }
+
+  const setDatabasePage = {
+    icon: 'i-mdi-database-cog',
+    to: '/set-database'
+  }
+
   const isLoggedMenu = [
     homePage,
+    setDatabasePage,
     {
       label: 'Logout',
       icon: 'i-mdi-exit-to-app',
@@ -21,6 +28,7 @@ const items = computed<NavigationMenuItem[]>(() => {
 
   const isNotLoggedMenu = [
     homePage,
+    setDatabasePage,
     {
       label: 'Login',
       icon: 'i-mdi-user',
@@ -31,6 +39,7 @@ const items = computed<NavigationMenuItem[]>(() => {
       icon: 'i-mdi-user',
       to: '/register'
     },
+
   ]
   return authToken.isLoggedIn ? isLoggedMenu : isNotLoggedMenu
 })
