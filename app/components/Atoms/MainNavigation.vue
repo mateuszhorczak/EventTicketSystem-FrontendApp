@@ -16,9 +16,15 @@ const items = computed<NavigationMenuItem[]>(() => {
     to: '/set-database',
   }
 
+  const adminPage = {
+    icon: 'i-mdi-account-supervisor-circle',
+    to: '/admin',
+  }
+
   const isLoggedMenu = [
     homePage,
     setDatabasePage,
+    adminPage,
     {
       label: 'Logout',
       icon: 'i-mdi-exit-to-app',
