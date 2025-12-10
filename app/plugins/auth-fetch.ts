@@ -3,28 +3,33 @@ export default defineNuxtPlugin(() => {
   const databaseStore = useDatabaseStore()
   const authToken = useAuthToken()
 
+  const baseURL = `${config.public.baseUrl}/api/v1/${databaseStore.database}`
+
+  const apiFetch = $fetch.create({
+    baseURL,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
   const authFetch = $fetch.create({
-    baseURL: `${config.public.baseUrl}/api/v1/${databaseStore.database}`,
+    baseURL,
     headers: {
       'Content-Type': 'application/json',
     },
     onRequest({ options }) {
       const token = authToken.token
+      if (!token) return
 
       const headers = new Headers(options.headers || {})
-
-      headers.set('Content-Type', 'application/json')
-
-      if (token) {
-        headers.set('Authorization', `Token ${token}`)
-      }
-
+      headers.set('Authorization', `Token ${token}`)
       options.headers = headers
     },
   })
 
   return {
     provide: {
+      apiFetch,
       authFetch,
     },
   }

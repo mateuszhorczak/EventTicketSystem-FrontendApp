@@ -2,7 +2,14 @@
 import type { FormError, FormSubmitEvent } from '@nuxt/ui'
 import * as z from 'zod'
 
-const adminStore = useAdminStore()
+interface Props {
+  id?: number
+}
+
+const props = defineProps<Props>()
+
+const seatTypeStore = useSeatTypeStore()
+if (props.id) await seatTypeStore.fetchSeatTypeById(props.id)
 
 const schema = z.object({
   name: z
@@ -14,7 +21,7 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
-  name: undefined,
+  name: props.id ? seatTypeStore.singleSeatType.name : undefined,
 })
 
 const validate: (state: Partial<Schema>) => FormError[] = (state) => {
@@ -25,10 +32,18 @@ const validate: (state: Partial<Schema>) => FormError[] = (state) => {
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const creationPromise = adminStore.createSeatType({
-    ...event.data,
-  })
-  if (!(await creationPromise)) return
+  const promise = await (async () => {
+    return props.id
+      ? seatTypeStore.updateSeatType({ ...event.data, id: props.id })
+      : seatTypeStore.createSeatType({ ...event.data })
+  })()
+
+  if (!promise) return
+  if (props.id) {
+    await useRouter().push('/admin/seat-types')
+    return
+  }
+  if (!(await seatTypeStore.fetchSeatTypes())) return
 }
 </script>
 
@@ -50,12 +65,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     <AtomsButton
       icon="i-mdi-seat"
-      label="Create seat type"
+      :label="props.id ? 'Edit seat type' : 'Create seat type'"
       variant="solid"
       size="lg"
       type="submit"
-      :loading="adminStore.isLoading"
-      :disabled="adminStore.isLoading"
+      :loading="seatTypeStore.isLoading"
+      :disabled="seatTypeStore.isLoading"
     />
   </UForm>
 </template>

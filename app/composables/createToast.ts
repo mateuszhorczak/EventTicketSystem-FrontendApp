@@ -1,7 +1,9 @@
 import type { ToastProps } from '@nuxt/ui'
 
 export const createToast = (toastData: ToastProps) => {
-  useToast().add(toastData)
+  if (import.meta.client) {
+    useToast().add(toastData)
+  }
 }
 
 export const createSuccessToast = (toastData: ToastProps) =>

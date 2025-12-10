@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from '@nuxt/ui'
 
-// const auth = useAuth()
 const authToken = useAuthToken()
-// const router = useRouter()
 
 const items = computed<NavigationMenuItem[]>(() => {
   const homePage = {
@@ -25,11 +23,6 @@ const items = computed<NavigationMenuItem[]>(() => {
     homePage,
     setDatabasePage,
     adminPage,
-    {
-      label: 'Logout',
-      icon: 'i-mdi-exit-to-app',
-      to: '/logout',
-    },
   ]
 
   const isNotLoggedMenu = [

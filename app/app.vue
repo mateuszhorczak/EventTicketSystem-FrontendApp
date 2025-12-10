@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { pl } from '@nuxt/ui/locale'
+import { en } from '@nuxt/ui/locale'
 </script>
 
 <template>
-  <UApp :locale="pl">
+  <UApp :locale="en">
     <OrganismsNavbar />
     <UMain>
       <NuxtLayout>

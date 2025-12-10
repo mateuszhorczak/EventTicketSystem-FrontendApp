@@ -52,13 +52,14 @@ export const useAuth = defineStore('auth', () => {
     return data !== null
   }
 
-  const logout = () => {
+  const logout = async () => {
     authToken.clearToken()
     user.value = null
 
     createSuccessToast({
       title: 'Logged out successfully',
     })
+    await useRouter().push('/login')
   }
 
   return {

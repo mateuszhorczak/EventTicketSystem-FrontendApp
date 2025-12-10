@@ -2,7 +2,14 @@
 import type { FormError, FormSubmitEvent } from '@nuxt/ui'
 import * as z from 'zod'
 
-const adminStore = useAdminStore()
+interface Props {
+  id?: number
+}
+
+const props = defineProps<Props>()
+
+const eventTypeStore = useEventTypeStore()
+if (props.id) await eventTypeStore.fetchEventTypeById(props.id)
 
 const schema = z.object({
   name: z
@@ -14,7 +21,7 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
-  name: undefined,
+  name: props.id ? eventTypeStore.singleEventType.name : undefined,
 })
 
 const validate: (state: Partial<Schema>) => FormError[] = (state) => {
@@ -25,10 +32,18 @@ const validate: (state: Partial<Schema>) => FormError[] = (state) => {
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const creationPromise = adminStore.createEventType({
-    ...event.data,
-  })
-  if (!(await creationPromise)) return
+  const promise = await (async () => {
+    return props.id
+      ? eventTypeStore.updateEventType({ ...event.data, id: props.id })
+      : eventTypeStore.createEventType({ ...event.data })
+  })()
+
+  if (!promise) return
+  if (props.id) {
+    await useRouter().push('/admin/event-types')
+    return
+  }
+  if (!(await eventTypeStore.fetchEventTypes())) return
 }
 </script>
 
@@ -54,8 +69,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="solid"
       size="lg"
       type="submit"
-      :loading="adminStore.isLoading"
-      :disabled="adminStore.isLoading"
+      :loading="eventTypeStore.isLoading"
+      :disabled="eventTypeStore.isLoading"
     />
   </UForm>
 </template>

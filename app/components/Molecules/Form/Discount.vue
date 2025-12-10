@@ -2,23 +2,23 @@
 import type { FormError, FormSubmitEvent } from '@nuxt/ui'
 import * as z from 'zod'
 
-const adminStore = useAdminStore()
+interface Props {
+  id?: number
+}
 
-const modelSelectedTime = defineModel<{ start: Date, end: Date }>('selected', {
-  default: () => ({
-    start: new Date(),
-    end: new Date(Date.now() + 60 * 60 * 1000),
-  }),
-})
+const props = defineProps<Props>()
+
+const discountStore = useDiscountStore()
+if (props.id) await discountStore.fetchDiscountById(props.id)
 
 const startsAt = shallowReactive({
-  date: getCalendarDateObject(modelSelectedTime.value.start ?? new Date()),
-  time: getTimeObject(modelSelectedTime.value.start ?? new Date()),
+  date: getCalendarDateObject(props.id ? new Date(discountStore.singleDiscount.valid_from) : new Date()),
+  time: getTimeObject(props.id ? new Date(discountStore.singleDiscount.valid_from) : new Date()),
 })
 
 const endsAt = shallowReactive({
-  date: getCalendarDateObject(modelSelectedTime.value.end ?? new Date()),
-  time: getTimeObject(modelSelectedTime.value.end ?? new Date()),
+  date: getCalendarDateObject(props.id ? new Date(discountStore.singleDiscount.valid_to) : new Date()),
+  time: getTimeObject(props.id ? new Date(discountStore.singleDiscount.valid_to) : new Date()),
 })
 
 const schema = z.object({
@@ -41,16 +41,17 @@ const schema = z.object({
   valid_to: z.preprocess(
     arg => (typeof arg === 'string' ? new Date(arg) : arg),
     z.date(),
-  ) })
+  ),
+})
 
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
-  name: undefined,
-  discount_percentage: 0.05,
-  code: undefined,
-  valid_from: undefined,
-  valid_to: undefined,
+  name: props.id ? discountStore.singleDiscount.name : undefined,
+  discount_percentage: props.id ? parseFloat(discountStore.singleDiscount.discount_percentage) : 0.05,
+  code: props.id ? discountStore.singleDiscount.code : undefined,
+  valid_from: props.id ? discountStore.singleDiscount.valid_from : undefined,
+  valid_to: props.id ? discountStore.singleDiscount.valid_to : undefined,
 })
 
 const validate: (state: Partial<Schema>) => FormError[] = (state) => {
@@ -63,12 +64,24 @@ const validate: (state: Partial<Schema>) => FormError[] = (state) => {
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const creationPromise = adminStore.createDiscount({
+  const eventData = {
     ...event.data,
     valid_from: combineCalendarDateAndTime(startsAt.date, startsAt.time),
     valid_to: combineCalendarDateAndTime(endsAt.date, endsAt.time),
-  })
-  if (!(await creationPromise)) return
+  }
+
+  const promise = await (async () => {
+    return props.id
+      ? discountStore.updateDiscount({ ...eventData, id: props.id })
+      : discountStore.createDiscount(eventData)
+  })()
+
+  if (!promise) return
+  if (props.id) {
+    await useRouter().push('/admin/discounts')
+    return
+  }
+  if (!(await discountStore.fetchDiscounts())) return
 }
 </script>
 
@@ -126,12 +139,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     <AtomsButton
       icon="i-mdi-cash-plus"
-      label="Create discount"
+      :label="props.id ? 'Edit discount' : 'Create discount'"
       variant="solid"
       size="lg"
       type="submit"
-      :loading="adminStore.isLoading"
-      :disabled="adminStore.isLoading"
+      :loading="discountStore.isLoading"
+      :disabled="discountStore.isLoading"
     />
   </UForm>
 </template>

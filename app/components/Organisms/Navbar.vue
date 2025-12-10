@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const authToken = useAuthToken()
 </script>
 
 <template>
@@ -18,6 +18,12 @@
     <AtomsMainNavigation />
 
     <template #right>
+      <AtomsButton
+        v-if="authToken.isLoggedIn"
+        variant="link"
+        icon="i-mdi-exit-to-app"
+        to="/logout"
+      />
       <UColorModeSwitch />
     </template>
 
