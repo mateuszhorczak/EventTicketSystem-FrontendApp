@@ -83,6 +83,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
   if (!(await discountStore.fetchDiscounts())) return
 }
+
+const deleteDiscount = async () => {
+  if (!props.id) return
+  if (!(await discountStore.deleteDiscount(props.id))) return
+  if (!(await discountStore.fetchDiscounts())) return
+  await useRouter().push('/admin/discounts')
+}
 </script>
 
 <template>
@@ -137,14 +144,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="outline"
     />
 
-    <AtomsButton
-      icon="i-mdi-cash-plus"
-      :label="props.id ? 'Edit discount' : 'Create discount'"
-      variant="solid"
-      size="lg"
-      type="submit"
-      :loading="discountStore.isLoading"
-      :disabled="discountStore.isLoading"
-    />
+    <UFieldGroup>
+      <AtomsButton
+        icon="i-mdi-cash-plus"
+        :label="props.id ? 'Edit discount' : 'Create discount'"
+        variant="solid"
+        size="lg"
+        type="submit"
+        :loading="props.id ? discountStore.isLoading.update : discountStore.isLoading.create"
+        :disabled="props.id ? discountStore.isLoading.update : discountStore.isLoading.create"
+      />
+
+      <AtomsDeleteButton
+        v-if="props.id"
+        :loading="discountStore.isLoading.delete"
+        :disabled="discountStore.isLoading.delete"
+        @click="deleteDiscount"
+      />
+    </UFieldGroup>
   </UForm>
 </template>

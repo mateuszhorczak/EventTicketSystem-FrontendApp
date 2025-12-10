@@ -1,12 +1,19 @@
 export const useSeatTypeStore = defineStore('seatTypeStore', () => {
   const { $authFetch, $apiFetch } = useNuxtApp()
-  const isLoading = ref(false)
   const seatTypes = ref<SeatType[]>()
   const singleSeatType = ref<SeatType>()
   const selectedSeatTypeId = ref()
 
+  const isLoading = reactive({
+    create: false,
+    update: false,
+    delete: false,
+    fetch: false,
+    fetchById: false,
+  })
+
   const createSeatType = async (newSeatType: NewSeatType) => {
-    isLoading.value = true
+    isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/seat-types/', {
       method: 'POST',
       body: newSeatType,
@@ -19,13 +26,13 @@ export const useSeatTypeStore = defineStore('seatTypeStore', () => {
       })
       .catch(error => handleApiError(error, 'Seat type creation failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.create = false
       })
     return data !== null
   }
 
   const updateSeatType = async (seatType: SeatType) => {
-    isLoading.value = true
+    isLoading.update = true
     const { data } = await $authFetch<SuccessResponse>(`/seat-types/${seatType.id}/`, {
       method: 'PUT',
       body: seatType,
@@ -38,36 +45,37 @@ export const useSeatTypeStore = defineStore('seatTypeStore', () => {
       })
       .catch(error => handleApiError(error, 'Seat type updated failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.update = false
       })
     return data !== null
   }
 
   const deleteSeatType = async (id: number) => {
-    isLoading.value = true
+    isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/seat-types/${id}/`, {
       method: 'DELETE',
     })
-      .then((data) => {
+      .then(() => {
         createSuccessToast({
           title: 'Seat type deleted successfully',
         })
-        return { data: data.success }
+        return { data: true }
       })
       .catch(error => handleApiError(error, 'Seat type deletion failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.delete = false
+        selectedSeatTypeId.value = null
       })
     return data !== null
   }
 
   const fetchSeatTypes = async () => {
-    isLoading.value = true
+    isLoading.fetch = true
     const { data } = await $apiFetch<SeatTypeListResponse>('/seat-types/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Seat types fetching error')))
       .finally(() => {
-        isLoading.value = false
+        isLoading.fetch = false
       })
 
     if (data !== null) seatTypes.value = data
@@ -75,9 +83,13 @@ export const useSeatTypeStore = defineStore('seatTypeStore', () => {
   }
 
   const fetchSeatTypeById = async (id: number) => {
+    isLoading.fetchById = true
     const { data } = await $apiFetch<SeatTypeResponse>(`/seat-types/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Seat type fetching error')))
+      .finally(() => {
+        isLoading.fetchById = false
+      })
 
     if (data !== null) singleSeatType.value = data
     return data !== null

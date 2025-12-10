@@ -45,6 +45,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
   if (!(await eventTypeStore.fetchEventTypes())) return
 }
+
+const deleteEventType = async () => {
+  if (!props.id) return
+  if (!(await eventTypeStore.deleteEventType(props.id))) return
+  if (!(await eventTypeStore.fetchEventTypes())) return
+  await useRouter().push('/admin/event-types')
+}
 </script>
 
 <template>
@@ -63,14 +70,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="outline"
     />
 
-    <AtomsButton
-      icon="i-mdi-calendar-plus"
-      :label="props.id ? 'Edit event type' : 'Create event type'"
-      variant="solid"
-      size="lg"
-      type="submit"
-      :loading="eventTypeStore.isLoading"
-      :disabled="eventTypeStore.isLoading"
-    />
+    <UFieldGroup>
+      <AtomsButton
+        icon="i-mdi-calendar-plus"
+        :label="props.id ? 'Edit event type' : 'Create event type'"
+        variant="solid"
+        size="lg"
+        type="submit"
+        :loading="props.id ? eventTypeStore.isLoading.update : eventTypeStore.isLoading.create"
+        :disabled="props.id ? eventTypeStore.isLoading.update : eventTypeStore.isLoading.create"
+      />
+
+      <AtomsDeleteButton
+        v-if="props.id"
+        :loading="eventTypeStore.isLoading.delete"
+        :disabled="eventTypeStore.isLoading.delete"
+        @click="deleteEventType"
+      />
+    </UFieldGroup>
   </UForm>
 </template>

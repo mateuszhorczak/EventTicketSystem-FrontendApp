@@ -1,12 +1,19 @@
 export const useDiscountStore = defineStore('discountStore', () => {
   const { $authFetch, $apiFetch } = useNuxtApp()
-  const isLoading = ref(false)
   const discounts = ref<Discount[]>()
   const singleDiscount = ref<Discount>()
   const selectedDiscountId = ref()
 
+  const isLoading = reactive({
+    create: false,
+    update: false,
+    delete: false,
+    fetch: false,
+    fetchById: false,
+  })
+
   const createDiscount = async (newDiscount: NewDiscount) => {
-    isLoading.value = true
+    isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/discounts/', {
       method: 'POST',
       body: newDiscount,
@@ -19,13 +26,13 @@ export const useDiscountStore = defineStore('discountStore', () => {
       })
       .catch(error => handleApiError(error, 'Discount creation failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.create = false
       })
     return data !== null
   }
 
   const updateDiscount = async (discount: Discount) => {
-    isLoading.value = true
+    isLoading.update = true
     const { data } = await $authFetch<SuccessResponse>(`/discounts/${discount.id}/`, {
       method: 'PUT',
       body: discount,
@@ -38,36 +45,37 @@ export const useDiscountStore = defineStore('discountStore', () => {
       })
       .catch(error => handleApiError(error, 'Discount updated failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.update = false
       })
     return data !== null
   }
 
   const deleteDiscount = async (id: number) => {
-    isLoading.value = true
+    isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/discounts/${id}/`, {
       method: 'DELETE',
     })
-      .then((data) => {
+      .then(() => {
         createSuccessToast({
           title: 'Discount deleted successfully',
         })
-        return { data: data.success }
+        return { data: true }
       })
       .catch(error => handleApiError(error, 'Discount deletion failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.delete = false
+        selectedDiscountId.value = null
       })
     return data !== null
   }
 
   const fetchDiscounts = async () => {
-    isLoading.value = true
+    isLoading.fetch = true
     const { data } = await $apiFetch<DiscountListResponse>('/discounts/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Discounts fetching error')))
       .finally(() => {
-        isLoading.value = false
+        isLoading.fetch = false
       })
 
     if (data !== null) discounts.value = data
@@ -75,9 +83,13 @@ export const useDiscountStore = defineStore('discountStore', () => {
   }
 
   const fetchDiscountById = async (id: number) => {
+    isLoading.fetchById = true
     const { data } = await $apiFetch<DiscountResponse>(`/discounts/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Discount fetching error')))
+      .finally(() => {
+        isLoading.fetchById = false
+      })
 
     if (data !== null) singleDiscount.value = data
     return data !== null

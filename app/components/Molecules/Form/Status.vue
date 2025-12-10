@@ -45,6 +45,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
   if (!(await statusStore.fetchStatuses())) return
 }
+
+const deleteStatus = async () => {
+  if (!props.id) return
+  if (!(await statusStore.deleteStatus(props.id))) return
+  if (!(await statusStore.fetchStatuses())) return
+  await useRouter().push('/admin/status')
+}
 </script>
 
 <template>
@@ -63,14 +70,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="outline"
     />
 
-    <AtomsButton
-      icon="i-mdi-list-status"
-      :label="props.id ? 'Edit status' : 'Create status'"
-      variant="solid"
-      size="lg"
-      type="submit"
-      :loading="statusStore.isLoading"
-      :disabled="statusStore.isLoading"
-    />
+    <UFieldGroup>
+      <AtomsButton
+        icon="i-mdi-list-status"
+        :label="props.id ? 'Edit status' : 'Create status'"
+        variant="solid"
+        size="lg"
+        type="submit"
+        :loading="props.id ? statusStore.isLoading.update : statusStore.isLoading.create"
+        :disabled="props.id ? statusStore.isLoading.update : statusStore.isLoading.create"
+      />
+
+      <AtomsDeleteButton
+        v-if="props.id"
+        :loading="statusStore.isLoading.delete"
+        :disabled="statusStore.isLoading.delete"
+        @click="deleteStatus"
+      />
+    </UFieldGroup>
   </UForm>
 </template>

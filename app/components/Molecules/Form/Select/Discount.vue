@@ -26,7 +26,8 @@ async function onSubmit() {
       label="Edit selected"
       variant="solid"
       size="lg"
-      :loading="discountStore.isLoading"
+      :loading="discountStore.isLoading.fetchById"
+      :disabled="discountStore.isLoading.fetch || !discountStore.selectedDiscountId"
       @click="onSubmit"
     />
   </div>

@@ -1,12 +1,19 @@
 export const useStatusStore = defineStore('statusStore', () => {
   const { $authFetch, $apiFetch } = useNuxtApp()
-  const isLoading = ref(false)
   const statuses = ref<Status[]>()
   const singleStatus = ref<Status>()
   const selectedStatusId = ref()
 
+  const isLoading = reactive({
+    create: false,
+    update: false,
+    delete: false,
+    fetch: false,
+    fetchById: false,
+  })
+
   const createStatus = async (newStatus: NewStatus) => {
-    isLoading.value = true
+    isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/statuses/', {
       method: 'POST',
       body: newStatus,
@@ -19,13 +26,13 @@ export const useStatusStore = defineStore('statusStore', () => {
       })
       .catch(error => handleApiError(error, 'Status creation failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.create = false
       })
     return data !== null
   }
 
   const updateStatus = async (status: Status) => {
-    isLoading.value = true
+    isLoading.update = true
     const { data } = await $authFetch<SuccessResponse>(`/statuses/${status.id}/`, {
       method: 'PUT',
       body: status,
@@ -38,36 +45,37 @@ export const useStatusStore = defineStore('statusStore', () => {
       })
       .catch(error => handleApiError(error, 'Status updated failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.update = false
       })
     return data !== null
   }
 
   const deleteStatus = async (id: number) => {
-    isLoading.value = true
+    isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/statuses/${id}/`, {
       method: 'DELETE',
     })
-      .then((data) => {
+      .then(() => {
         createSuccessToast({
           title: 'Status deleted successfully',
         })
-        return { data: data.success }
+        return { data: true }
       })
       .catch(error => handleApiError(error, 'Status deletion failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.delete = false
+        selectedStatusId.value = null
       })
     return data !== null
   }
 
   const fetchStatuses = async () => {
-    isLoading.value = true
+    isLoading.fetch = true
     const { data } = await $apiFetch<StatusListResponse>('/statuses/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Statuses fetching error')))
       .finally(() => {
-        isLoading.value = false
+        isLoading.fetch = false
       })
 
     if (data !== null) statuses.value = data
@@ -75,9 +83,13 @@ export const useStatusStore = defineStore('statusStore', () => {
   }
 
   const fetchStatusById = async (id: number) => {
+    isLoading.fetchById = true
     const { data } = await $apiFetch<StatusResponse>(`/statuses/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Statuses fetching error')))
+      .finally(() => {
+        isLoading.fetchById = false
+      })
 
     if (data !== null) singleStatus.value = data
     return data !== null

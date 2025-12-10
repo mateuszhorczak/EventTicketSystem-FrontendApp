@@ -26,7 +26,8 @@ async function onSubmit() {
       label="Edit selected"
       variant="solid"
       size="lg"
-      :loading="ticketTypeStore.isLoading"
+      :loading="ticketTypeStore.isLoading.fetchById"
+      :disabled="ticketTypeStore.isLoading.fetch || !ticketTypeStore.selectedTicketTypeId"
       @click="onSubmit"
     />
   </div>

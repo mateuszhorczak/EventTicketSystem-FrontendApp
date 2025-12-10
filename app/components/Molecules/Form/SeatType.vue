@@ -45,6 +45,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
   if (!(await seatTypeStore.fetchSeatTypes())) return
 }
+
+const deleteSeatType = async () => {
+  if (!props.id) return
+  if (!(await seatTypeStore.deleteSeatType(props.id))) return
+  if (!(await seatTypeStore.fetchSeatTypes())) return
+  await useRouter().push('/admin/seat-types')
+}
 </script>
 
 <template>
@@ -63,14 +70,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="outline"
     />
 
-    <AtomsButton
-      icon="i-mdi-seat"
-      :label="props.id ? 'Edit seat type' : 'Create seat type'"
-      variant="solid"
-      size="lg"
-      type="submit"
-      :loading="seatTypeStore.isLoading"
-      :disabled="seatTypeStore.isLoading"
-    />
+    <UFieldGroup>
+      <AtomsButton
+        icon="i-mdi-seat"
+        :label="props.id ? 'Edit seat type' : 'Create seat type'"
+        variant="solid"
+        size="lg"
+        type="submit"
+        :loading="props.id ? seatTypeStore.isLoading.update : seatTypeStore.isLoading.create"
+        :disabled="props.id ? seatTypeStore.isLoading.update : seatTypeStore.isLoading.create"
+      />
+
+      <AtomsDeleteButton
+        v-if="props.id"
+        :loading="seatTypeStore.isLoading.delete"
+        :disabled="seatTypeStore.isLoading.delete"
+        @click="deleteSeatType"
+      />
+    </UFieldGroup>
   </UForm>
 </template>

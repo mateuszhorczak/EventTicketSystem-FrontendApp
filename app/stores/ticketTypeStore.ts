@@ -1,12 +1,19 @@
 export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
   const { $authFetch, $apiFetch } = useNuxtApp()
-  const isLoading = ref(false)
   const ticketTypes = ref<TicketType[]>()
   const singleTicketType = ref<TicketType>()
   const selectedTicketTypeId = ref()
 
+  const isLoading = reactive({
+    create: false,
+    update: false,
+    delete: false,
+    fetch: false,
+    fetchById: false,
+  })
+
   const createTicketType = async (newTicketType: NewTicketType) => {
-    isLoading.value = true
+    isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/ticket-types/', {
       method: 'POST',
       body: newTicketType,
@@ -19,13 +26,13 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
       })
       .catch(error => handleApiError(error, 'Ticket type creation failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.create = false
       })
     return data !== null
   }
 
   const updateTicketType = async (ticketType: TicketType) => {
-    isLoading.value = true
+    isLoading.update = true
     const { data } = await $authFetch<SuccessResponse>(`/ticket-types/${ticketType.id}/`, {
       method: 'PUT',
       body: ticketType,
@@ -38,36 +45,37 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
       })
       .catch(error => handleApiError(error, 'Ticket type updated failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.update = false
       })
     return data !== null
   }
 
   const deleteTicketType = async (id: number) => {
-    isLoading.value = true
+    isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/ticket-types/${id}/`, {
       method: 'DELETE',
     })
-      .then((data) => {
+      .then(() => {
         createSuccessToast({
           title: 'Ticket type deleted successfully',
         })
-        return { data: data.success }
+        return { data: true }
       })
       .catch(error => handleApiError(error, 'Ticket type deletion failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.delete = false
+        selectedTicketTypeId.value = null
       })
     return data !== null
   }
 
   const fetchTicketTypes = async () => {
-    isLoading.value = true
+    isLoading.fetch = true
     const { data } = await $apiFetch<TicketTypeListResponse>('/ticket-types/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Ticket types fetching error')))
       .finally(() => {
-        isLoading.value = false
+        isLoading.fetch = false
       })
 
     if (data !== null) ticketTypes.value = data
@@ -75,9 +83,13 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
   }
 
   const fetchTicketTypeById = async (id: number) => {
+    isLoading.fetchById = true
     const { data } = await $apiFetch<TicketTypeResponse>(`/ticket-types/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Ticket type fetching error')))
+      .finally(() => {
+        isLoading.fetchById = false
+      })
 
     if (data !== null) singleTicketType.value = data
     return data !== null

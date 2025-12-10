@@ -45,6 +45,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
   if (!(await ticketTypeStore.fetchTicketTypes())) return
 }
+
+const deleteTicketType = async () => {
+  if (!props.id) return
+  if (!(await ticketTypeStore.deleteTicketType(props.id))) return
+  if (!(await ticketTypeStore.fetchTicketTypes())) return
+  await useRouter().push('/admin/ticket-types')
+}
 </script>
 
 <template>
@@ -63,14 +70,23 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="outline"
     />
 
-    <AtomsButton
-      icon="i-mdi-ticket"
-      :label="props.id ? 'Edit ticket type' : 'Create ticket type'"
-      variant="solid"
-      size="lg"
-      type="submit"
-      :loading="ticketTypeStore.isLoading"
-      :disabled="ticketTypeStore.isLoading"
-    />
+    <UFieldGroup>
+      <AtomsButton
+        icon="i-mdi-ticket"
+        :label="props.id ? 'Edit ticket type' : 'Create ticket type'"
+        variant="solid"
+        size="lg"
+        type="submit"
+        :loading="props.id ? ticketTypeStore.isLoading.update : ticketTypeStore.isLoading.create"
+        :disabled="props.id ? ticketTypeStore.isLoading.update : ticketTypeStore.isLoading.create"
+      />
+
+      <AtomsDeleteButton
+        v-if="props.id"
+        :loading="ticketTypeStore.isLoading.delete"
+        :disabled="ticketTypeStore.isLoading.delete"
+        @click="deleteTicketType"
+      />
+    </UFieldGroup>
   </UForm>
 </template>

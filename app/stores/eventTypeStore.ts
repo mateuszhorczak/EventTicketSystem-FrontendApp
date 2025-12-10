@@ -1,12 +1,19 @@
 export const useEventTypeStore = defineStore('eventTypeStore', () => {
   const { $authFetch, $apiFetch } = useNuxtApp()
-  const isLoading = ref(false)
   const eventTypes = ref<EventType[]>()
   const singleEventType = ref<EventType>()
   const selectedEventTypeId = ref()
 
+  const isLoading = reactive({
+    create: false,
+    update: false,
+    delete: false,
+    fetch: false,
+    fetchById: false,
+  })
+
   const createEventType = async (newEventType: NewEventType) => {
-    isLoading.value = true
+    isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/event-types/', {
       method: 'POST',
       body: newEventType,
@@ -19,13 +26,13 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
       })
       .catch(error => handleApiError(error, 'Event type creation failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.create = false
       })
     return data !== null
   }
 
   const updateEventType = async (eventType: EventType) => {
-    isLoading.value = true
+    isLoading.update = true
     const { data } = await $authFetch<SuccessResponse>(`/event-types/${eventType.id}/`, {
       method: 'PUT',
       body: eventType,
@@ -38,36 +45,37 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
       })
       .catch(error => handleApiError(error, 'Event type updated failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.update = false
       })
     return data !== null
   }
 
   const deleteEventType = async (id: number) => {
-    isLoading.value = true
+    isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/event-types/${id}/`, {
       method: 'DELETE',
     })
-      .then((data) => {
+      .then(() => {
         createSuccessToast({
           title: 'Event type deleted successfully',
         })
-        return { data: data.success }
+        return { data: true }
       })
       .catch(error => handleApiError(error, 'Event type deletion failed'))
       .finally(() => {
-        isLoading.value = false
+        isLoading.delete = false
+        selectedEventTypeId.value = null
       })
     return data !== null
   }
 
   const fetchEventTypes = async () => {
-    isLoading.value = true
+    isLoading.fetch = true
     const { data } = await $apiFetch<EventTypeListResponse>('/event-types/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Event types fetching error')))
       .finally(() => {
-        isLoading.value = false
+        isLoading.fetch = false
       })
 
     if (data !== null) eventTypes.value = data
@@ -75,9 +83,13 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
   }
 
   const fetchEventTypeById = async (id: number) => {
+    isLoading.fetchById = true
     const { data } = await $apiFetch<EventTypeResponse>(`/event-types/${id}/`)
       .then(data => ({ data }))
-      .catch(error => handleApiError(error, ('Discount fetching error')))
+      .catch(error => handleApiError(error, ('Event type fetching error')))
+      .finally(() => {
+        isLoading.fetchById = false
+      })
 
     if (data !== null) singleEventType.value = data
     return data !== null
