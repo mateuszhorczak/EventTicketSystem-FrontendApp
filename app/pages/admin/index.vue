@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <AtomsSubHeading>Admin panel</AtomsSubHeading>
+  <MoleculesAdminCards />
 </template>

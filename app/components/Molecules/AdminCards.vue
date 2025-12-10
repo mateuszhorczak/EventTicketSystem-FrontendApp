@@ -1,0 +1,45 @@
+<script setup lang="ts">
+const cards = [
+  {
+    title: 'Discounts',
+    description: 'Manage discount codes, percentages, and promo rules.',
+    icon: 'i-mdi-cash',
+    to: '/admin/discounts',
+  },
+  {
+    title: 'Event types',
+    description: 'Create and organize different kinds of events.',
+    icon: 'i-mdi-calendar',
+    to: '/admin/event-types',
+  },
+  {
+    title: 'Seat types',
+    description: 'Define seating categories like VIP, standard, or standing.',
+    icon: 'i-mdi-seat',
+    to: '/admin/seat-types',
+  },
+  {
+    title: 'Ticket types',
+    description: 'Set up ticket variants: early bird, regular, group, etc.',
+    icon: 'i-mdi-ticket',
+    to: '/admin/ticket-types',
+  },
+  {
+    title: 'Status',
+    description: 'Manage order, ticket, and payment statuses.',
+    icon: 'i-mdi-list-status',
+    to: '/admin/status',
+  },
+]
+</script>
+
+<template>
+  <AtomsSubHeading>Manage your app</AtomsSubHeading>
+  <UPageGrid>
+    <UPageCard
+      v-for="(card, index) in cards"
+      :key="index"
+      v-bind="card"
+    />
+  </UPageGrid>
+</template>
