@@ -10,6 +10,7 @@
 
     <template #default>
       <UPageBody>
+        <AtomsAdminBreadcrumb />
         <NuxtPage />
       </UPageBody>
     </template>

@@ -3,6 +3,7 @@ const authToken = useAuthToken()
 </script>
 
 <template>
+  <AtomsDatabaseAlert />
   <UHeader
     mode="drawer"
     :toggle="{

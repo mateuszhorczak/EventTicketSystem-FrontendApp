@@ -15,7 +15,7 @@ const items = computed<NavigationMenuItem[]>(() => {
   }
 
   const adminPage = {
-    icon: 'i-mdi-account-supervisor-circle',
+    icon: 'i-mdi-shield',
     to: '/admin',
   }
 
