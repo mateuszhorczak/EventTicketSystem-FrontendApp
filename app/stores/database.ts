@@ -14,5 +14,5 @@ export const useDatabaseStore = defineStore('databaseStore', () => {
 })
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAuthToken, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useDatabaseStore, import.meta.hot))
 }
