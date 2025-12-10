@@ -34,8 +34,8 @@ const validate: (state: Partial<Schema>) => FormError[] = (state) => {
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const promise = await (async () => {
     return props.id
-      ? seatTypeStore.updateSeatType({ ...event.data, id: props.id })
-      : seatTypeStore.createSeatType({ ...event.data })
+      ? ticketTypeStore.updateTicketType({ ...event.data, id: props.id })
+      : ticketTypeStore.createTicketType({ ...event.data })
   })()
 
   if (!promise) return
@@ -65,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     <AtomsButton
       icon="i-mdi-ticket"
-      label="Create ticket type"
+      :label="props.id ? 'Edit ticket type' : 'Create ticket type'"
       variant="solid"
       size="lg"
       type="submit"

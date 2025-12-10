@@ -65,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     <AtomsButton
       icon="i-mdi-calendar-plus"
-      label="Create event type"
+      :label="props.id ? 'Edit event type' : 'Create event type'"
       variant="solid"
       size="lg"
       type="submit"

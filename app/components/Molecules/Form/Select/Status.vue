@@ -6,7 +6,7 @@ await statusStore.fetchStatuses()
 
 async function onSubmit() {
   if (!statusStore.selectedStatusId) return
-  await router.push(`/admin/statuses/${statusStore.selectedStatusId}`)
+  await router.push(`/admin/status/${statusStore.selectedStatusId}`)
 }
 </script>
 

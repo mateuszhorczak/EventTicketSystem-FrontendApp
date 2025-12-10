@@ -8,9 +8,9 @@ const routeId = parseInt(params.id, 10)
 </script>
 
 <template>
-  <TemplateCard header="Edit discount">
+  <AtomsContainerCard header="Edit discount">
     <MoleculesFormDiscount
       :id="routeId"
     />
-  </TemplateCard>
+  </AtomsContainerCard>
 </template>

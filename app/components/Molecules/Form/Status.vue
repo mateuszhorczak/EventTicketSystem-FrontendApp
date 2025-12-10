@@ -65,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     <AtomsButton
       icon="i-mdi-list-status"
-      label="Create status"
+      :label="props.id ? 'Edit status' : 'Create status'"
       variant="solid"
       size="lg"
       type="submit"

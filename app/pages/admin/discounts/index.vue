@@ -2,13 +2,5 @@
 </script>
 
 <template>
-  <div>
-    <TemplateCard header="Manage discount">
-      <MoleculesFormSelectDiscount />
-    </TemplateCard>
-
-    <TemplateCard header="Create discount">
-      <MoleculesFormDiscount />
-    </TemplateCard>
-  </div>
+  <OrganismsAdminDiscount />
 </template>
