@@ -27,6 +27,11 @@ const links = ref<PageLink[]>([
     icon: 'i-mdi-list-status',
     to: '/admin/status',
   },
+  {
+    label: 'Events',
+    icon: 'i-mdi-calendar-plus',
+    to: '/admin/events',
+  },
 ])
 </script>
 

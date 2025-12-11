@@ -30,6 +30,12 @@ const cards = [
     icon: 'i-mdi-list-status',
     to: '/admin/status',
   },
+  {
+    title: 'Events',
+    description: 'Create and organize different kinds of events.',
+    icon: 'i-mdi-calendar-plus',
+    to: '/admin/events',
+  },
 ]
 </script>
 
