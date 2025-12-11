@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <OrganismsAdminSeatTypes />
+  <TemplateSeatType />
 </template>

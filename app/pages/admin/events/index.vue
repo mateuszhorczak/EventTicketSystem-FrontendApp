@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <OrganismsAdminEvent />
+  <TemplateEvent />
 </template>

@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <OrganismsAdminStatus />
+  <TemplateStatus />
 </template>
