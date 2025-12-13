@@ -4,9 +4,5 @@ const routeId = parseInt(params.id, 10)
 </script>
 
 <template>
-  <AtomsContainerCard header="Edit seat type">
-    <MoleculesFormSeatType
-      :id="routeId"
-    />
-  </AtomsContainerCard>
+  <MoleculesFormOrder :event-id="routeId" />
 </template>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { FormFieldProps, SelectMenuProps } from '@nuxt/ui'
+import type { FormFieldProps, InputNumberProps } from '@nuxt/ui'
 
 interface Props {
-  items: SelectMenuProps['items']
-  placeholder: SelectMenuProps['placeholder']
-  variant: SelectMenuProps['variant']
+  placeholder: InputNumberProps['placeholder']
+  variant: InputNumberProps['variant']
+  min?: InputNumberProps['min']
+  max?: InputNumberProps['max']
   label: FormFieldProps['label']
   name: FormFieldProps['name']
   help?: FormFieldProps['help']
@@ -12,7 +13,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const model = defineModel<number>()
+const model = defineModel<number>('val')
 </script>
 
 <template>
@@ -21,14 +22,12 @@ const model = defineModel<number>()
     :help="props.help"
     :name="props.name"
   >
-    <USelectMenu
+    <UInputNumber
       v-model="model"
-      value-key="id"
-      :items="props.items"
       :placeholder="props.placeholder"
       :variant="props.variant"
-      arrow
-      :ui="{ content: 'min-w-fit' }"
+      :min="props.min"
+      :max="props.max"
     />
   </UFormField>
 </template>

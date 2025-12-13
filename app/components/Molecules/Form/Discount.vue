@@ -117,16 +117,15 @@ const deleteDiscount = async () => {
       variant="outline"
     />
 
-    <AtomsPercentageInput
+    <AtomsInputPercentage
       v-model:val="state.discount_percentage"
       label="Discount percentage"
       name="discount-percentage"
       placeholder="Enter discount percentage"
-      icon="i-mdi-email"
       variant="outline"
     />
 
-    <AtomsDatetimePicker
+    <AtomsDateTimePicker
       v-model:date="startsAt.date"
       v-model:time="startsAt.time"
       label="Valid from"
@@ -135,7 +134,7 @@ const deleteDiscount = async () => {
       variant="outline"
     />
 
-    <AtomsDatetimePicker
+    <AtomsDateTimePicker
       v-model:date="endsAt.date"
       v-model:time="endsAt.time"
       label="Valid to"
@@ -155,7 +154,7 @@ const deleteDiscount = async () => {
         :disabled="props.id ? discountStore.isLoading.update : discountStore.isLoading.create"
       />
 
-      <AtomsDeleteButton
+      <AtomsButtonDelete
         v-if="props.id"
         :loading="discountStore.isLoading.delete"
         :disabled="discountStore.isLoading.delete"

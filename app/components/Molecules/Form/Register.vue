@@ -63,7 +63,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       variant="outline"
     />
 
-    <AtomsPasswordInputValidation
+    <AtomsInputPasswordValidation
       v-model:val="state.password"
       label="Password"
       name="password"
@@ -72,7 +72,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       placeholder="Enter password"
     />
 
-    <AtomsPasswordInput
+    <AtomsInputPassword
       v-model:val="state.password2"
       label="Repeat password"
       name="password2"

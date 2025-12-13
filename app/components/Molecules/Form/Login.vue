@@ -51,7 +51,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       help=""
     />
 
-    <AtomsPasswordInput
+    <AtomsInputPassword
       v-model:val="state.password"
       label="Password"
       name="password"

@@ -13,12 +13,6 @@ const cards = [
     to: '/admin/event-types',
   },
   {
-    title: 'Seat types',
-    description: 'Define seating categories like VIP, standard, or standing.',
-    icon: 'i-mdi-seat',
-    to: '/admin/seat-types',
-  },
-  {
     title: 'Ticket types',
     description: 'Set up ticket variants: early bird, regular, group, etc.',
     icon: 'i-mdi-ticket',

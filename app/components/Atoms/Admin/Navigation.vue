@@ -9,13 +9,8 @@ const links = ref<PageLink[]>([
   },
   {
     label: 'Event types',
-    icon: 'i-mdi-calendar-edit',
+    icon: 'i-mdi-calendar-star',
     to: '/admin/event-types',
-  },
-  {
-    label: 'Seat types',
-    icon: 'i-mdi-seat',
-    to: '/admin/seat-types',
   },
   {
     label: 'ticket-types',

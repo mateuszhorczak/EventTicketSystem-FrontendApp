@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <MoleculesAdminCards />
+  <MoleculesCardsAdmin />
 </template>

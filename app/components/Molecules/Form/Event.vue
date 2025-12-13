@@ -55,6 +55,12 @@ const schema = z.object({
   status_id: z
     .number({ error: 'invalid value' })
     .positive({ error: 'invalid value' }),
+  base_price: z
+    .number({ error: 'invalid value' })
+    .positive({ error: 'invalid value' }),
+  quantity: z
+    .int({ error: 'invalid value' })
+    .nonnegative({ error: 'invalid value' }),
 })
 
 type Schema = z.output<typeof schema>
@@ -67,6 +73,8 @@ const state = reactive<Partial<Schema>>({
   date_end: props.id ? eventStore.singleEvent.date_end : undefined,
   event_type_id: props.id ? eventStore.singleEvent.event_type.id : undefined,
   status_id: props.id ? eventStore.singleEvent.status.id : undefined,
+  base_price: props.id ? parseFloat(eventStore.singleEvent.base_price) : undefined,
+  quantity: props.id ? parseInt(eventStore.singleEvent.quantity) : undefined,
 })
 
 const validate: (state: Partial<Schema>) => FormError[] = (state) => {
@@ -93,7 +101,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
   if (!promise) return
   if (props.id) {
-    await useRouter().push('/admin/discounts')
+    await useRouter().push('/admin/events')
     return
   }
   if (!(await eventStore.fetchEvents())) return
@@ -103,7 +111,7 @@ const deleteEvent = async () => {
   if (!props.id) return
   if (!(await eventStore.deleteEvent(props.id))) return
   if (!(await eventStore.fetchEvents())) return
-  await useRouter().push('/admin/discounts')
+  await useRouter().push('/admin/events')
 }
 </script>
 
@@ -141,7 +149,27 @@ const deleteEvent = async () => {
       variant="outline"
     />
 
-    <AtomsDatetimePicker
+    <AtomsInputPrice
+      v-model:val="state.base_price"
+      label="Base price"
+      name="base-price"
+      placeholder="price"
+      icon="i-mdi-text"
+      variant="outline"
+      :min="0"
+    />
+
+    <AtomsInputNumber
+      v-model:val="state.quantity"
+      label="Quantity"
+      name="quantity"
+      placeholder="quantity"
+      icon="i-mdi-text"
+      variant="outline"
+      :min="0"
+    />
+
+    <AtomsDateTimePicker
       v-model:date="startsAt.date"
       v-model:time="startsAt.time"
       label="Starts at"
@@ -150,7 +178,7 @@ const deleteEvent = async () => {
       variant="outline"
     />
 
-    <AtomsDatetimePicker
+    <AtomsDateTimePicker
       v-model:date="endsAt.date"
       v-model:time="endsAt.time"
       label="Ends at"
@@ -188,7 +216,7 @@ const deleteEvent = async () => {
         :disabled="props.id ? eventStore.isLoading.update : eventStore.isLoading.create"
       />
 
-      <AtomsDeleteButton
+      <AtomsButtonDelete
         v-if="props.id"
         :loading="eventStore.isLoading.delete"
         :disabled="eventStore.isLoading.delete"

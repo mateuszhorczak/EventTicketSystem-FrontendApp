@@ -1,6 +1,7 @@
 declare global {
   export interface NewTicketType {
     name: string
+    discount: number
   }
 
   export type TicketType = NewTicketType & { id: number }

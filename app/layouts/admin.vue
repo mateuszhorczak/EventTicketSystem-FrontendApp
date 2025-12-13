@@ -10,11 +10,13 @@
 
     <template #default>
       <UPageBody>
-        <AtomsAdminBreadcrumb />
+        <AtomsBreadcrumbAdmin />
         <NuxtPage />
       </UPageBody>
     </template>
 
-    <template #right />
+    <template #right>
+      <div />
+    </template>
   </UPage>
 </template>

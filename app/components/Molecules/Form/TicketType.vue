@@ -16,12 +16,17 @@ const schema = z.object({
     .string({ error: 'required' })
     .trim()
     .min(3, { error: 'too short name' }),
+  discount: z
+    .number({ error: 'required' })
+    .nonnegative({ error: 'invalid value' })
+    .lte(1, { error: 'invalid value' }),
 })
 
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
   name: props.id ? ticketTypeStore.singleTicketType.name : undefined,
+  discount: props.id ? parseFloat(ticketTypeStore.singleTicketType.discount) : undefined,
 })
 
 const validate: (state: Partial<Schema>) => FormError[] = (state) => {
@@ -70,6 +75,16 @@ const deleteTicketType = async () => {
       variant="outline"
     />
 
+    <AtomsInputPercentage
+      v-model:val="state.discount"
+      label="Discount value"
+      name="discount"
+      placeholder="Enter value"
+      variant="outline"
+      :min="0"
+      :max="1"
+    />
+
     <UFieldGroup>
       <AtomsButton
         icon="i-mdi-ticket"
@@ -81,7 +96,7 @@ const deleteTicketType = async () => {
         :disabled="props.id ? ticketTypeStore.isLoading.update : ticketTypeStore.isLoading.create"
       />
 
-      <AtomsDeleteButton
+      <AtomsButtonDelete
         v-if="props.id"
         :loading="ticketTypeStore.isLoading.delete"
         :disabled="ticketTypeStore.isLoading.delete"

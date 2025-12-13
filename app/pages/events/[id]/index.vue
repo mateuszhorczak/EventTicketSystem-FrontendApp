@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <TemplateSeatTypeId />
+  <TemplateHomeEventId />
 </template>

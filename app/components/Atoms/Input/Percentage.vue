@@ -4,6 +4,8 @@ import type { FormFieldProps, InputNumberProps } from '@nuxt/ui'
 interface Props {
   placeholder: InputNumberProps['placeholder']
   variant: InputNumberProps['variant']
+  min?: InputNumberProps['min']
+  max?: InputNumberProps['max']
   label: FormFieldProps['label']
   name: FormFieldProps['name']
   help?: FormFieldProps['help']
@@ -22,6 +24,8 @@ const model = defineModel<number>('val')
   >
     <UInputNumber
       v-model="model"
+      :min="props.min"
+      :max="props.max"
       :step="0.01"
       :placeholder="props.placeholder"
       :variant="props.variant"

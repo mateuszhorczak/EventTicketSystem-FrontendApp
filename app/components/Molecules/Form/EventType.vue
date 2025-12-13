@@ -81,7 +81,7 @@ const deleteEventType = async () => {
         :disabled="props.id ? eventTypeStore.isLoading.update : eventTypeStore.isLoading.create"
       />
 
-      <AtomsDeleteButton
+      <AtomsButtonDelete
         v-if="props.id"
         :loading="eventTypeStore.isLoading.delete"
         :disabled="eventTypeStore.isLoading.delete"

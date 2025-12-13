@@ -6,7 +6,6 @@ const route = useRoute()
 const sectionLabels = {
   'discounts': 'Discounts',
   'event-types': 'Event types',
-  'seat-types': 'Seat types',
   'ticket-types': 'Ticket types',
   'status': 'Statuses',
   'events': 'Events',

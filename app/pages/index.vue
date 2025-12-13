@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <AtomsParagraph>no dzien dobry drodzy panstwo kochani moi</AtomsParagraph>
+  <TemplateHome />
 </template>

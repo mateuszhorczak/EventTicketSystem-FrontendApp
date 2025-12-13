@@ -81,7 +81,7 @@ const deleteStatus = async () => {
         :disabled="props.id ? statusStore.isLoading.update : statusStore.isLoading.create"
       />
 
-      <AtomsDeleteButton
+      <AtomsButtonDelete
         v-if="props.id"
         :loading="statusStore.isLoading.delete"
         :disabled="statusStore.isLoading.delete"

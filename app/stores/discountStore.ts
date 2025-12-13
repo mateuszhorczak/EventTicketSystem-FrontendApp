@@ -95,6 +95,34 @@ export const useDiscountStore = defineStore('discountStore', () => {
     return data !== null
   }
 
+  const enteredCode = ref('')
+  const activeDiscount = ref()
+
+  const checkDiscountCode = () => {
+    activeDiscount.value = discounts.value?.find(discount => discount.code === enteredCode.value)
+    if (!activeDiscount.value) {
+      createErrorToast({
+        title: 'Invalid discount code',
+      })
+    }
+    else {
+      createSuccessToast({
+        title: 'Activate entered discount code',
+        description: `You got ${activeDiscount.value.discount_percentage}% discount!`,
+      })
+    }
+  }
+
+  const clearDiscount = (showToast: boolean) => {
+    enteredCode.value = ''
+    activeDiscount.value = undefined
+
+    if (!showToast) return
+    createSuccessToast({
+      title: 'Discount unactivate',
+    })
+  }
+
   return {
     isLoading,
     discounts,
@@ -105,6 +133,10 @@ export const useDiscountStore = defineStore('discountStore', () => {
     updateDiscount,
     fetchDiscounts,
     fetchDiscountById,
+    enteredCode,
+    checkDiscountCode,
+    activeDiscount,
+    clearDiscount,
   }
 })
 

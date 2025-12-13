@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <TemplateSeatType />
+  <OrganismsClientEventDetail />
 </template>

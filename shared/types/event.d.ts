@@ -5,6 +5,8 @@ declare global {
     code: string
     valid_from: Date
     valid_to: Date
+    base_price: number
+    quantity: number
   }
 
   export type StandardEvent = NewEvent & { id: number }
