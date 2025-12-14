@@ -1,6 +1,6 @@
 export const useDatabaseStore = defineStore('databaseStore', () => {
   const database = useCookie<DatabaseType>('server:database', {
-    default: () => 'relational',
+    default: () => 'rel',
     watch: true,
   })
   const setDatabase = (newDatabase: DatabaseType) => {

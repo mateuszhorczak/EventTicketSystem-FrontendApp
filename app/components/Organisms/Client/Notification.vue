@@ -1,6 +1,7 @@
 <script setup lang="ts">
+const authToken = useAuthToken()
 const notificationStore = useNotificationStore()
-await notificationStore.fetchNotifications()
+if (authToken.isLoggedIn) await notificationStore.fetchNotifications()
 
 const handleClose = async (itemId: number) => {
   await notificationStore.readNotification(itemId)

@@ -10,7 +10,7 @@ export const useAuth = defineStore('auth', () => {
 
   const login = async (email: string, password: string) => {
     isLoading.value = true
-    const { data } = await $fetch<{ token: string, user: User }>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/login`, {
+    const { data } = await $fetch<{ token: string, user: User }>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/login/`, {
       method: 'POST',
       body: {
         email,
@@ -34,7 +34,7 @@ export const useAuth = defineStore('auth', () => {
 
   const register = async (user: NewUser) => {
     isLoading.value = true
-    const { data } = await $fetch<SuccessResponse>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register`, {
+    const { data } = await $fetch<SuccessResponse>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register/`, {
       method: 'POST',
       body: user,
     })

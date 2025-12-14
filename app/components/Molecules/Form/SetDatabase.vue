@@ -6,9 +6,9 @@ const databaseStore = useDatabaseStore()
 const authToken = useAuthToken()
 
 const validDatabases: DatabaseType[] = [
-  'relational',
+  'rel',
   'obj-rel',
-  'objective',
+  'obj',
   'nosql',
 ]
 
