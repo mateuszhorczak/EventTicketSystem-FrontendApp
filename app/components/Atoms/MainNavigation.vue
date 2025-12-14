@@ -19,10 +19,16 @@ const items = computed<NavigationMenuItem[]>(() => {
     to: '/admin',
   }
 
+  const messagePage = {
+    icon: 'i-mdi-chat',
+    to: '/contact',
+  }
+
   const isLoggedMenu = [
     homePage,
     setDatabasePage,
     adminPage,
+    messagePage,
   ]
 
   const isNotLoggedMenu = [

@@ -10,6 +10,7 @@
 
     <template #default>
       <UPageBody>
+        <OrganismsClientNotification />
         <AtomsBreadcrumbClient />
         <NuxtPage />
       </UPageBody>

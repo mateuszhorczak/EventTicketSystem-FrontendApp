@@ -9,6 +9,7 @@ const sectionLabels = {
   'ticket-types': 'Ticket types',
   'status': 'Statuses',
   'events': 'Events',
+  'messages': 'Messages',
 }
 
 const breadCrumbItems = computed(() => {

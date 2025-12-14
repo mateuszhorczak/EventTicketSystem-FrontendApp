@@ -26,9 +26,15 @@ const cards = [
   },
   {
     title: 'Events',
-    description: 'Create and organize different kinds of events.',
+    description: 'Create and organize events.',
     icon: 'i-mdi-calendar-plus',
     to: '/admin/events',
+  },
+  {
+    title: 'Messages',
+    description: 'Read customers messages from admin panel.',
+    icon: 'i-mdi-message-outline',
+    to: '/admin/messages',
   },
 ]
 </script>

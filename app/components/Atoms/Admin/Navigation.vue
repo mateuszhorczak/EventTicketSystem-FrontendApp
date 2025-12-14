@@ -27,6 +27,11 @@ const links = ref<PageLink[]>([
     icon: 'i-mdi-calendar-plus',
     to: '/admin/events',
   },
+  {
+    label: 'Messages',
+    icon: 'i-mdi-chat',
+    to: '/admin/messsages',
+  },
 ])
 </script>
 

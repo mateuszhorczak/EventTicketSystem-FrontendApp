@@ -30,6 +30,14 @@ const breadCrumbItems = computed(() => {
         to: accumulatedPath,
       })
     }
+
+    if (segment === 'contact') {
+      items.push({
+        label: 'Contact',
+        icon: 'i-mdi-message',
+        to: accumulatedPath,
+      })
+    }
     else if (pathSegments[0] === 'events') {
       if (i === 1) {
         items.push({
