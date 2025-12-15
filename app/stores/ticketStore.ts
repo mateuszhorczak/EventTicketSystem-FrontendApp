@@ -12,6 +12,12 @@ export const useTicketStore = defineStore('ticketStore', () => {
     fetchById: false,
   })
 
+  const clearStore = () => {
+    tickets.value = []
+    singleTicket.value = null
+    selectedTicketId.value = null
+  }
+
   const createTicket = async (newTicket: NewTicket) => {
     isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/tickets/', {
@@ -105,6 +111,7 @@ export const useTicketStore = defineStore('ticketStore', () => {
     updateTicket,
     fetchTickets,
     fetchTicketById,
+    clearStore,
   }
 })
 

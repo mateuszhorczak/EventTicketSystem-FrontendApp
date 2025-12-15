@@ -4,6 +4,12 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
   const singleEventType = ref<EventType>()
   const selectedEventTypeId = ref()
 
+  const clearStore = () => {
+    eventTypes.value = []
+    singleEventType.value = null
+    selectedEventTypeId.value = null
+  }
+
   const isLoading = reactive({
     create: false,
     update: false,
@@ -105,6 +111,7 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
     updateEventType,
     fetchEventTypes,
     fetchEventTypeById,
+    clearStore,
   }
 })
 

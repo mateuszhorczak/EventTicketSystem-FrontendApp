@@ -12,6 +12,12 @@ export const useStatusStore = defineStore('statusStore', () => {
     fetchById: false,
   })
 
+  const clearStore = () => {
+    statuses.value = []
+    singleStatus.value = null
+    selectedStatusId.value = null
+  }
+
   const createStatus = async (newStatus: NewStatus) => {
     isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/statuses/', {
@@ -105,6 +111,7 @@ export const useStatusStore = defineStore('statusStore', () => {
     updateStatus,
     fetchStatuses,
     fetchStatusById,
+    clearStore,
   }
 })
 

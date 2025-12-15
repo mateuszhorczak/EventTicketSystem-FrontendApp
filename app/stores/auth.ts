@@ -1,4 +1,5 @@
 export const useAuth = defineStore('auth', () => {
+  const { $authFetch, $apiFetch } = useNuxtApp()
   const config = useRuntimeConfig()
   const authToken = useAuthToken()
   const databaseStore = useDatabaseStore()
@@ -10,7 +11,7 @@ export const useAuth = defineStore('auth', () => {
 
   const login = async (email: string, password: string) => {
     isLoading.value = true
-    const { data } = await $fetch<{ token: string, user: User }>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/login/`, {
+    const { data } = await $apiFetch<{ token: string, user: User }>(`/auth/login/`, {
       method: 'POST',
       body: {
         email,
@@ -34,7 +35,8 @@ export const useAuth = defineStore('auth', () => {
 
   const register = async (user: NewUser) => {
     isLoading.value = true
-    const { data } = await $fetch<SuccessResponse>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register/`, {
+    const { data } = await $apiFetch<SuccessResponse>(`/auth/register/`, {
+    // const { data } = await $fetch<SuccessResponse>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register/`, {
       method: 'POST',
       body: user,
     })
@@ -52,9 +54,23 @@ export const useAuth = defineStore('auth', () => {
     return data !== null
   }
 
+  const clearAllStores = () => {
+    useDiscountStore().clearStore()
+    useEventStore().clearStore()
+    useEventTypeStore().clearStore()
+    useMessageStore().clearStore()
+    useNotificationStore().clearStore()
+    useOrderStore().clearStore()
+    useStatusStore().clearStore()
+    useTicketStore().clearStore()
+    useTicketTypeStore().clearStore()
+  }
+
   const logout = async () => {
     authToken.clearToken()
     user.value = null
+
+    clearAllStores()
 
     createSuccessToast({
       title: 'Logged out successfully',

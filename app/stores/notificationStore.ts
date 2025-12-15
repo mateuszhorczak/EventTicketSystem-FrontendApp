@@ -12,6 +12,12 @@ export const useNotificationStore = defineStore('notificationStore', () => {
     fetchById: false,
   })
 
+  const clearStore = () => {
+    notifications.value = []
+    singleNotifications.value = null
+    selectedNotificationId.value = null
+  }
+
   const createNotification = async (newNotification: NewNotification, message_id: number) => {
     isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/notifications/', {
@@ -104,6 +110,7 @@ export const useNotificationStore = defineStore('notificationStore', () => {
     readNotification,
     fetchNotifications,
     fetchNotificationsById,
+    clearStore,
   }
 })
 

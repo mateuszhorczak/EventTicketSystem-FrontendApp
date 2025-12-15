@@ -13,6 +13,13 @@ export const useMessageStore = defineStore('messageStore', () => {
     fetchById: false,
   })
 
+  const clearStore = () => {
+    messages.value = []
+    allMessages.value = []
+    singleMessage.value = null
+    selectedMessageId.value = null
+  }
+
   const createMessage = async (newMessage: NewMessage) => {
     isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/messages/', {
@@ -122,6 +129,7 @@ export const useMessageStore = defineStore('messageStore', () => {
     fetchMessageById,
     allMessages,
     fetchAllMessages,
+    clearStore,
   }
 })
 

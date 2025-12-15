@@ -12,6 +12,12 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
     fetchById: false,
   })
 
+  const clearStore = () => {
+    ticketTypes.value = []
+    singleTicketType.value = null
+    selectedTicketTypeId.value = null
+  }
+
   const createTicketType = async (newTicketType: NewTicketType) => {
     isLoading.create = true
     const { data } = await $authFetch<SuccessResponse>('/ticket-types/', {
@@ -105,6 +111,7 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
     updateTicketType,
     fetchTicketTypes,
     fetchTicketTypeById,
+    clearStore,
   }
 })
 

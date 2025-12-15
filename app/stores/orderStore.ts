@@ -11,6 +11,13 @@ export const useOrderStore = defineStore('orderStore', () => {
     selectedTickets.value.splice(selectedTickets.value.indexOf(ticket), 1)
   }
 
+  const clearStore = () => {
+    orders.value = []
+    selectedTickets.value = []
+    singleOrder.value = null
+    selectedOrderId.value = null
+  }
+
   const isLoading = reactive({
     create: false,
     update: false,
@@ -116,6 +123,7 @@ export const useOrderStore = defineStore('orderStore', () => {
     addTicket,
     clearTicketList,
     deleteTicket,
+    clearStore,
   }
 })
 

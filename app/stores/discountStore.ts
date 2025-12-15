@@ -3,6 +3,8 @@ export const useDiscountStore = defineStore('discountStore', () => {
   const discounts = ref<Discount[]>()
   const singleDiscount = ref<Discount>()
   const selectedDiscountId = ref()
+  const enteredCode = ref('')
+  const activeDiscount = ref()
 
   const isLoading = reactive({
     create: false,
@@ -11,6 +13,14 @@ export const useDiscountStore = defineStore('discountStore', () => {
     fetch: false,
     fetchById: false,
   })
+
+  const clearStore = () => {
+    discounts.value = []
+    singleDiscount.value = null
+    selectedDiscountId.value = null
+    enteredCode.value = ''
+    activeDiscount.value = ''
+  }
 
   const createDiscount = async (newDiscount: NewDiscount) => {
     isLoading.create = true
@@ -95,9 +105,6 @@ export const useDiscountStore = defineStore('discountStore', () => {
     return data !== null
   }
 
-  const enteredCode = ref('')
-  const activeDiscount = ref()
-
   const checkDiscountCode = () => {
     activeDiscount.value = discounts.value?.find(discount => discount.code === enteredCode.value)
     if (!activeDiscount.value) {
@@ -137,6 +144,7 @@ export const useDiscountStore = defineStore('discountStore', () => {
     checkDiscountCode,
     activeDiscount,
     clearDiscount,
+    clearStore,
   }
 })
 
