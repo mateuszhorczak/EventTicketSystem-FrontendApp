@@ -3,6 +3,8 @@ const eventStore = useEventStore()
 const discountStore = useDiscountStore()
 const orderStore = useOrderStore()
 const ticketTypeStore = useTicketTypeStore()
+const statusStore = useStatusStore()
+const eventTypeStore = useEventTypeStore()
 
 const route = useRoute()
 const params = route.params as { id: string }
@@ -12,6 +14,8 @@ const confirmPage = route.path.includes('confirm')
 
 await eventStore.fetchEventById(routeId)
 await ticketTypeStore.fetchTicketTypes()
+await statusStore.fetchStatuses()
+await eventTypeStore.fetchEventTypes()
 
 const selectedTicketsWithDiscount = computed(() => {
   if (!ticketTypeStore.ticketTypes || !orderStore.selectedTickets) return []
@@ -71,11 +75,11 @@ const item = computed(() => ({
       icon: 'i-mdi-map-marker-outline',
     },
     {
-      title: eventStore.singleEvent.event_type.name,
+      title: eventTypeStore.eventTypes?.filter(item => item.id === eventStore.singleEvent.event_type)[0].name,
       icon: 'i-mdi-calendar-star-outline',
     },
     {
-      title: eventStore.singleEvent.status.name,
+      title: statusStore.statuses?.filter(item => item.id === eventStore.singleEvent.status)[0].name,
       icon: 'i-mdi-list-status',
     },
     {

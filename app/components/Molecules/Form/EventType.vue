@@ -21,7 +21,7 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const state = reactive<Partial<Schema>>({
-  name: props.id ? eventTypeStore.singleEventType.name : undefined,
+  name: props.id ? eventTypeStore.singleEventType?.name : undefined,
 })
 
 const validate: (state: Partial<Schema>) => FormError[] = (state) => {

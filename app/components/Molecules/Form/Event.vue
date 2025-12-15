@@ -71,8 +71,8 @@ const state = reactive<Partial<Schema>>({
   localization: props.id ? eventStore.singleEvent.localization : undefined,
   date_start: props.id ? eventStore.singleEvent.date_start : undefined,
   date_end: props.id ? eventStore.singleEvent.date_end : undefined,
-  event_type: props.id ? eventStore.singleEvent.event_type.id : undefined,
-  status: props.id ? eventStore.singleEvent.status.id : undefined,
+  event_type: props.id ? eventStore.singleEvent.event_type : undefined,
+  status: props.id ? eventStore.singleEvent.status : undefined,
   base_price: props.id ? parseFloat(eventStore.singleEvent.base_price) : undefined,
   quantity: props.id ? parseInt(eventStore.singleEvent.quantity) : undefined,
 })
