@@ -71,7 +71,7 @@ export const useStatusStore = defineStore('statusStore', () => {
 
   const fetchStatuses = async () => {
     isLoading.fetch = true
-    const { data } = await $apiFetch<StatusListResponse>('/statuses/')
+    const { data } = await $authFetch<StatusListResponse>('/statuses/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Statuses fetching error')))
       .finally(() => {
@@ -84,7 +84,7 @@ export const useStatusStore = defineStore('statusStore', () => {
 
   const fetchStatusById = async (id: number) => {
     isLoading.fetchById = true
-    const { data } = await $apiFetch<StatusResponse>(`/statuses/${id}/`)
+    const { data } = await $authFetch<StatusResponse>(`/statuses/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Statuses fetching error')))
       .finally(() => {

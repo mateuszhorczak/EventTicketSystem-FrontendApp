@@ -30,7 +30,7 @@ const links = ref<PageLink[]>([
   {
     label: 'Messages',
     icon: 'i-mdi-chat',
-    to: '/admin/messsages',
+    to: '/admin/messages',
   },
 ])
 </script>

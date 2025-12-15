@@ -71,7 +71,7 @@ export const useDiscountStore = defineStore('discountStore', () => {
 
   const fetchDiscounts = async () => {
     isLoading.fetch = true
-    const { data } = await $apiFetch<DiscountListResponse>('/discounts/')
+    const { data } = await $authFetch<DiscountListResponse>('/discounts/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Discounts fetching error')))
       .finally(() => {
@@ -84,7 +84,7 @@ export const useDiscountStore = defineStore('discountStore', () => {
 
   const fetchDiscountById = async (id: number) => {
     isLoading.fetchById = true
-    const { data } = await $apiFetch<DiscountResponse>(`/discounts/${id}/`)
+    const { data } = await $authFetch<DiscountResponse>(`/discounts/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Discount fetching error')))
       .finally(() => {

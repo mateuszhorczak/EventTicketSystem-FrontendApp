@@ -71,7 +71,7 @@ export const useEventStore = defineStore('eventStore', () => {
 
   const fetchEvents = async () => {
     isLoading.fetch = true
-    const { data } = await $apiFetch<EventListResponse>('/events/')
+    const { data } = await $authFetch<EventListResponse>('/events/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Events fetching error')))
       .finally(() => {
@@ -84,7 +84,7 @@ export const useEventStore = defineStore('eventStore', () => {
 
   const fetchEventById = async (id: number) => {
     isLoading.fetchById = true
-    const { data } = await $apiFetch<EventResponse>(`/events/${id}/`)
+    const { data } = await $authFetch<EventResponse>(`/events/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Event fetching error')))
       .finally(() => {

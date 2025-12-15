@@ -49,10 +49,10 @@ const schema = z.object({
     arg => (typeof arg === 'string' ? new Date(arg) : arg),
     z.date(),
   ),
-  event_type_id: z
+  event_type: z
     .number({ error: 'invalid value' })
     .positive({ error: 'invalid value' }),
-  status_id: z
+  status: z
     .number({ error: 'invalid value' })
     .positive({ error: 'invalid value' }),
   base_price: z
@@ -71,8 +71,8 @@ const state = reactive<Partial<Schema>>({
   localization: props.id ? eventStore.singleEvent.localization : undefined,
   date_start: props.id ? eventStore.singleEvent.date_start : undefined,
   date_end: props.id ? eventStore.singleEvent.date_end : undefined,
-  event_type_id: props.id ? eventStore.singleEvent.event_type.id : undefined,
-  status_id: props.id ? eventStore.singleEvent.status.id : undefined,
+  event_type: props.id ? eventStore.singleEvent.event_type.id : undefined,
+  status: props.id ? eventStore.singleEvent.status.id : undefined,
   base_price: props.id ? parseFloat(eventStore.singleEvent.base_price) : undefined,
   quantity: props.id ? parseInt(eventStore.singleEvent.quantity) : undefined,
 })
@@ -85,7 +85,6 @@ const validate: (state: Partial<Schema>) => FormError[] = (state) => {
   })
   return handleValidationError(error)
 }
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const eventData = {
     ...event.data,
@@ -188,7 +187,7 @@ const deleteEvent = async () => {
     />
 
     <AtomsSelectMenu
-      v-model="state.event_type_id"
+      v-model="state.event_type"
       :items="transformArrayToSelectMenu(eventTypeStore.eventTypes)"
       placeholder="select event type"
       variant="outline"
@@ -197,7 +196,7 @@ const deleteEvent = async () => {
     />
 
     <AtomsSelectMenu
-      v-model="state.status_id"
+      v-model="state.status"
       :items="transformArrayToSelectMenu(statusStore.statuses)"
       placeholder="select status"
       variant="outline"

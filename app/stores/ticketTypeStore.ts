@@ -71,7 +71,7 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
 
   const fetchTicketTypes = async () => {
     isLoading.fetch = true
-    const { data } = await $apiFetch<TicketTypeListResponse>('/ticket-types/')
+    const { data } = await $authFetch<TicketTypeListResponse>('/ticket-types/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Ticket types fetching error')))
       .finally(() => {
@@ -84,7 +84,7 @@ export const useTicketTypeStore = defineStore('ticketTypeStore', () => {
 
   const fetchTicketTypeById = async (id: number) => {
     isLoading.fetchById = true
-    const { data } = await $apiFetch<TicketTypeResponse>(`/ticket-types/${id}/`)
+    const { data } = await $authFetch<TicketTypeResponse>(`/ticket-types/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Ticket type fetching error')))
       .finally(() => {

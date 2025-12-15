@@ -78,7 +78,7 @@ export const useOrderStore = defineStore('orderStore', () => {
 
   const fetchOrders = async () => {
     isLoading.fetch = true
-    const { data } = await $apiFetch<OrderListResponse>('/orders/')
+    const { data } = await $authFetch<OrderListResponse>('/orders/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Order fetching error')))
       .finally(() => {
@@ -91,7 +91,7 @@ export const useOrderStore = defineStore('orderStore', () => {
 
   const fetchOrderById = async (id: number) => {
     isLoading.fetchById = true
-    const { data } = await $apiFetch<OrderResponse>(`/order/${id}/`)
+    const { data } = await $authFetch<OrderResponse>(`/order/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Order fetching error')))
       .finally(() => {

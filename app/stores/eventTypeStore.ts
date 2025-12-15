@@ -71,7 +71,7 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
 
   const fetchEventTypes = async () => {
     isLoading.fetch = true
-    const { data } = await $apiFetch<EventTypeListResponse>('/event-types/')
+    const { data } = await $authFetch<EventTypeListResponse>('/event-types/')
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Event types fetching error')))
       .finally(() => {
@@ -84,7 +84,7 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
 
   const fetchEventTypeById = async (id: number) => {
     isLoading.fetchById = true
-    const { data } = await $apiFetch<EventTypeResponse>(`/event-types/${id}/`)
+    const { data } = await $authFetch<EventTypeResponse>(`/event-types/${id}/`)
       .then(data => ({ data }))
       .catch(error => handleApiError(error, ('Event type fetching error')))
       .finally(() => {
