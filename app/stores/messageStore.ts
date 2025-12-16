@@ -104,7 +104,7 @@ export const useMessageStore = defineStore('messageStore', () => {
     return data !== null
   }
 
-  const fetchMessageById = async (id: number) => {
+  const fetchMessageById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<MessageResponse>(`/messages/${id}/`)
       .then(data => ({ data }))

@@ -88,7 +88,7 @@ export const useTicketStore = defineStore('ticketStore', () => {
     return data !== null
   }
 
-  const fetchTicketById = async (id: number) => {
+  const fetchTicketById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<TicketResponse>(`/tickets/${id}/`)
       .then(data => ({ data }))

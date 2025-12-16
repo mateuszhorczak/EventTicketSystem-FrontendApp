@@ -87,7 +87,7 @@ export const useNotificationStore = defineStore('notificationStore', () => {
     return data !== null
   }
 
-  const fetchNotificationsById = async (id: number) => {
+  const fetchNotificationsById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<NotificationResponse>(`/notifications/${id}/`)
       .then(data => ({ data }))

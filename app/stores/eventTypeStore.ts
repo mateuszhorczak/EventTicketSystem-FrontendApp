@@ -88,7 +88,7 @@ export const useEventTypeStore = defineStore('eventTypeStore', () => {
     return data !== null
   }
 
-  const fetchEventTypeById = async (id: number) => {
+  const fetchEventTypeById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<EventTypeResponse>(`/event-types/${id}/`)
       .then(data => ({ data }))

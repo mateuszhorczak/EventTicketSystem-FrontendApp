@@ -12,7 +12,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const model = defineModel<number | null>()
+const model = defineModel<number | string | null>()
 </script>
 
 <template>

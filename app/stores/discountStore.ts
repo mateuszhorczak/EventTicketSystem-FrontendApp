@@ -92,7 +92,7 @@ export const useDiscountStore = defineStore('discountStore', () => {
     return data !== null
   }
 
-  const fetchDiscountById = async (id: number) => {
+  const fetchDiscountById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<DiscountResponse>(`/discounts/${id}/`)
       .then(data => ({ data }))

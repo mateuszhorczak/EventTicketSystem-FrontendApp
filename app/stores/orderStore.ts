@@ -96,7 +96,7 @@ export const useOrderStore = defineStore('orderStore', () => {
     return data !== null
   }
 
-  const fetchOrderById = async (id: number) => {
+  const fetchOrderById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<OrderResponse>(`/order/${id}/`)
       .then(data => ({ data }))

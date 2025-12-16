@@ -88,7 +88,7 @@ export const useStatusStore = defineStore('statusStore', () => {
     return data !== null
   }
 
-  const fetchStatusById = async (id: number) => {
+  const fetchStatusById = async (id: number | string) => {
     isLoading.fetchById = true
     const { data } = await $authFetch<StatusResponse>(`/statuses/${id}/`)
       .then(data => ({ data }))

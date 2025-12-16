@@ -1,10 +1,12 @@
 export default defineNuxtRouteMiddleware((to) => {
-  const isValidId
-    = 'id' in to.params
-      && typeof to.params.id === 'string'
-      && /^\d+$/.test(to.params.id)
+  if (!('id' in to.params)) return abortNavigation()
+  if (typeof to.params.id !== 'string') return abortNavigation()
 
-  if (!isValidId) {
-    return abortNavigation()
+  const id = to.params.id
+  const isNumeric = /^\d+$/.test(id)
+  const isMongoId = /^[0-9a-fA-F]{24}$/.test(id)
+
+  if (!isNumeric && !isMongoId) {
+    return abortNavigation('Invalid ID')
   }
 })

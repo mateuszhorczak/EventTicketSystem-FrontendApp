@@ -49,12 +49,22 @@ const schema = z.object({
     arg => (typeof arg === 'string' ? new Date(arg) : arg),
     z.date(),
   ),
-  event_type: z
-    .number({ error: 'invalid value' })
-    .positive({ error: 'invalid value' }),
-  status: z
-    .number({ error: 'invalid value' })
-    .positive({ error: 'invalid value' }),
+  event_type: z.union([
+    z
+      .number({ error: 'invalid value' })
+      .positive({ error: 'invalid value' }),
+    z
+      .string({ error: 'invalid value' })
+      .nonempty({ error: 'invalid value' }),
+  ]),
+  status: z.union([
+    z
+      .number({ error: 'invalid value' })
+      .positive({ error: 'invalid value' }),
+    z
+      .string({ error: 'invalid value' })
+      .nonempty({ error: 'invalid value' }),
+  ]),
   base_price: z
     .number({ error: 'invalid value' })
     .positive({ error: 'invalid value' }),
