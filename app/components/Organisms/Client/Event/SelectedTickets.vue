@@ -14,7 +14,7 @@ const ticketTypeStore = useTicketTypeStore()
         <div>
           <AtomsParagraph>{{ 'Quantity: ' + ticket.quantity }}</AtomsParagraph>
           <AtomsParagraph v-if="ticketTypeStore.ticketTypes">
-            {{ 'Ticket type: ' + ticketTypeStore.ticketTypes.filter(item => item.id === ticket.ticket_type)[0].name }}
+            {{ 'Ticket type: ' + ticketTypeStore.ticketTypes.filter(item => item.id === ticket.ticket_type)[0]?.name }}
           </AtomsParagraph>
         </div>
         <AtomsButtonDelete

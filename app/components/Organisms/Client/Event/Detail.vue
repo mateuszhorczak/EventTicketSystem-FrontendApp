@@ -75,11 +75,11 @@ const item = computed(() => ({
       icon: 'i-mdi-map-marker-outline',
     },
     {
-      title: eventTypeStore.eventTypes?.filter(item => item.id === eventStore.singleEvent.event_type)[0].name,
+      title: eventTypeStore.eventTypes?.filter(item => item.id === eventStore.singleEvent.event_type)[0]?.name,
       icon: 'i-mdi-calendar-star-outline',
     },
     {
-      title: statusStore.statuses?.filter(item => item.id === eventStore.singleEvent.status)[0].name,
+      title: statusStore.statuses?.filter(item => item.id === eventStore.singleEvent.status)[0]?.name,
       icon: 'i-mdi-list-status',
     },
     {
