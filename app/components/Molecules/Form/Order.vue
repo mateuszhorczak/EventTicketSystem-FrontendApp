@@ -18,8 +18,14 @@ const schema = z.object({
   quantity: z
     .int({ error: 'required' })
     .positive({ error: 'invalid value' }),
-  ticket_type: z
-    .int({ error: 'required' }),
+  ticket_type: z.union([
+    z
+      .number({ error: 'invalid value' })
+      .positive({ error: 'invalid value' }),
+    z
+      .string({ error: 'invalid value' })
+      .nonempty({ error: 'invalid value' }),
+  ]),
 })
 
 type Schema = z.output<typeof schema>
