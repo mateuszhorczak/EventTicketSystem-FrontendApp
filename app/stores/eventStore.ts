@@ -56,7 +56,7 @@ export const useEventStore = defineStore('eventStore', () => {
     return data !== null
   }
 
-  const deleteEvent = async (id: number) => {
+  const deleteEvent = async (id: number | string) => {
     isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/events/${id}/`, {
       method: 'DELETE',
@@ -97,7 +97,13 @@ export const useEventStore = defineStore('eventStore', () => {
         isLoading.fetchById = false
       })
 
-    if (data !== null) singleEvent.value = data
+    if (data !== null) {
+      singleEvent.value = {
+        ...data,
+        date_start: fixMongoDate(data.date_start),
+        date_end: fixMongoDate(data.date_end),
+      }
+    }
     return data !== null
   }
 

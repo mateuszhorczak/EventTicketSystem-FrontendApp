@@ -3,7 +3,7 @@ import type { FormError, FormSubmitEvent } from '@nuxt/ui'
 import * as z from 'zod'
 
 interface Props {
-  id?: number
+  id?: number | string
 }
 
 const props = defineProps<Props>()

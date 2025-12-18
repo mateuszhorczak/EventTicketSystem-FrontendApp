@@ -6,10 +6,10 @@ const orderStore = useOrderStore()
 const ticketTypeStore = useTicketTypeStore()
 const discountStore = useDiscountStore()
 
-const props = defineProps<{ eventId: number }>()
+const props = defineProps<{ eventId: number | string }>()
 
 const params = useRoute().params as { id: string }
-const routeId = parseInt(params.id, 10)
+const routeId = params.id
 
 await ticketTypeStore.fetchTicketTypes()
 await discountStore.fetchDiscounts()

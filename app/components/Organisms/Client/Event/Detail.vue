@@ -8,7 +8,7 @@ const eventTypeStore = useEventTypeStore()
 
 const route = useRoute()
 const params = route.params as { id: string }
-const routeId = parseInt(params.id, 10)
+const routeId = params.id
 
 const confirmPage = route.path.includes('confirm')
 

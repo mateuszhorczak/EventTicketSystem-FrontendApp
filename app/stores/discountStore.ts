@@ -60,7 +60,7 @@ export const useDiscountStore = defineStore('discountStore', () => {
     return data !== null
   }
 
-  const deleteDiscount = async (id: number) => {
+  const deleteDiscount = async (id: number | string) => {
     isLoading.delete = true
     const { data } = await $authFetch<SuccessResponse>(`/discounts/${id}/`, {
       method: 'DELETE',
@@ -101,7 +101,9 @@ export const useDiscountStore = defineStore('discountStore', () => {
         isLoading.fetchById = false
       })
 
-    if (data !== null) singleDiscount.value = data
+    if (data !== null) {
+      singleDiscount.value = { ...data, valid_to: fixMongoDate(data.valid_to), valid_from: fixMongoDate(data.valid_from) }
+    }
     return data !== null
   }
 

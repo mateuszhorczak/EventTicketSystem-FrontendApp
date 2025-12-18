@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const params = useRoute().params as { id: string }
-const routeId = parseInt(params.id, 10)
+const routeId = params.id
 </script>
 
 <template>
