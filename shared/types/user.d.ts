@@ -5,6 +5,7 @@ declare global {
     surname: string
     email: string
     role: string
+    is_staff: boolean
   }
 
   export interface NewUser {

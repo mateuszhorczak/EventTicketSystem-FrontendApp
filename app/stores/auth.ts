@@ -1,8 +1,6 @@
 export const useAuth = defineStore('auth', () => {
-  const { $authFetch, $apiFetch } = useNuxtApp()
-  const config = useRuntimeConfig()
+  const { $apiFetch } = useNuxtApp()
   const authToken = useAuthToken()
-  const databaseStore = useDatabaseStore()
   const isLoading = ref(false)
   const user = useCookie<User | null>('auth:user', {
     default: () => null,
@@ -36,7 +34,6 @@ export const useAuth = defineStore('auth', () => {
   const register = async (user: NewUser) => {
     isLoading.value = true
     const { data } = await $apiFetch<SuccessResponse>(`/auth/register/`, {
-    // const { data } = await $fetch<SuccessResponse>(`${config.public.baseUrl}/api/v1/${databaseStore.database}/auth/register/`, {
       method: 'POST',
       body: user,
     })
