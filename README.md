@@ -1,75 +1,70 @@
-# Nuxt Minimal Starter
+# Event Ticket System - Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Web frontend for the **Event Ticket System**, a university project for the *Databases in Network Applications* course.
+It is the client for the Django REST API in [Isia07/BazyDanych](https://github.com/Isia07/BazyDanych), which runs the
+same domain on four different databases. The frontend lets you switch between them at runtime.
 
-## Setup
+## Features
 
-Make sure to install dependencies:
+**For customers**
+- Browse upcoming events and view event details
+- Order tickets: choose a ticket type and quantity, apply available discounts and confirm the order
+- Register and log in (password strength meter, form validation)
+- Send messages to the organisers and receive notifications in reply
 
-```bash
-# npm
-npm install
+**Admin panel** (users with `is_staff`)
+- Create, edit and delete events, event types, ticket types, discounts and order statuses
+- Read customer messages and reply with notifications
 
-# pnpm
-pnpm install
+**Database switcher**
 
-# yarn
-yarn install
+The backend exposes the same API for four databases, and the frontend sends every request to the one you pick:
 
-# bun
-bun install
-```
+| Option    | Database                         | API prefix         |
+|-----------|----------------------------------|--------------------|
+| `rel`     | relational (PostgreSQL)          | `/api/v1/rel/`     |
+| `obj-rel` | object-relational (PostgreSQL)   | `/api/v1/obj-rel/` |
+| `obj`     | object (ZODB)                    | `/api/v1/obj/`     |
+| `nosql`   | NoSQL (MongoDB)                  | `/api/v1/nosql/`   |
 
-## Development Server
+Each database has its own users, so switching the database logs you out.
 
-Start the development server on `http://localhost:3000`:
+## Tech stack
 
-```bash
-# npm
-npm run dev
+Nuxt 4, Vue 3 (Composition API), TypeScript, Nuxt UI 4, Tailwind CSS 4, Pinia, Zod, ESLint.
 
-# pnpm
-pnpm dev
+## Project structure
 
-# yarn
-yarn dev
+- `app/components/` - components organised with Atomic Design: `Atoms`, `Molecules`, `Organisms`, `Template`
+- `app/pages/` - customer pages, auth pages and the `/admin` panel
+- `app/stores/` - one Pinia store per API resource (events, orders, tickets, discounts, messages, ...)
+- `app/plugins/auth-fetch.ts` - `$apiFetch` and `$authFetch`: build the API URL for the selected database and add
+  the auth token to requests
+- `app/middleware/` - route guards for logged-in users, the admin panel and route ids
+- `shared/types/` - TypeScript types of the API resources
 
-# bun
-bun run dev
-```
+## Getting started
 
-## Production
+1. Start the backend from [Isia07/BazyDanych](https://github.com/Isia07/BazyDanych) with Docker Compose. The API
+   listens on `http://localhost:8000`.
+2. Configure the frontend:
 
-Build the application for production:
+   ```bash
+   cp .env.example .env
+   # NUXT_PUBLIC_BASE_URL=http://localhost:8000
+   ```
 
-```bash
-# npm
-npm run build
+3. Install dependencies and run the dev server on `http://localhost:3000`:
 
-# pnpm
-pnpm build
+   ```bash
+   pnpm install
+   pnpm dev
+   ```
 
-# yarn
-yarn build
+Other scripts: `pnpm build` (production build), `pnpm preview` (preview the build).
 
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Everything in it comes from the code of both repos:
+- Four databases and API prefixes: from SetDatabase.vue, auth-fetch.ts and the backend's urls.py.
+- Port 8000: from the backend's docker-compose.yml.
+- Logout after switching the database: from the switcher form.
+- Admin access: from the admin.ts middleware, which checks is_staff.
